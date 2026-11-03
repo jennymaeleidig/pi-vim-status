@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 import type {
   ExtensionAPI,
@@ -54,4 +55,17 @@ test("session start and shutdown do nothing in a non-TUI session", async () => {
     await handler({}, ctx);
     assert.deepEqual(touched, [], `${name} leaves ui, events and settings untouched`);
   }
+});
+
+test("the package depends on neither side of the bridge at runtime", async () => {
+  const root = new URL("../", import.meta.url);
+  const pkg = JSON.parse(await readFile(new URL("package.json", root), "utf8")) as {
+    dependencies?: Record<string, string>;
+    peerDependencies?: Record<string, string>;
+  };
+  assert.deepEqual(Object.keys(pkg.dependencies ?? {}), []);
+  assert.deepEqual(Object.keys(pkg.peerDependencies ?? {}), ["@earendil-works/pi-coding-agent"]);
+
+  const source = await readFile(new URL("src/index.ts", root), "utf8");
+  assert.ok(!/from\s+"[^"]*(pi-vim-editor|pi-zentui)/.test(source), "no bridge import");
 });
