@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.1.1]
+
+- Ignore `node_modules/` and build output in the repository, so a checkout stays clean after
+  installing dependencies.
+
 ## [0.1.0]
 
 - Republish `pi-vim-editor`'s status on Zentui's custom-variable bus under the fixed key

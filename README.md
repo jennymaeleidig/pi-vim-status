@@ -16,12 +16,12 @@ Install the package from its GitHub repository, between the two extensions it br
 
 ```sh
 pi install npm:pi-vim-editor
-pi install git:github.com/jennymaeleidig/pi-vim-status@v0.1.0
+pi install git:github.com/jennymaeleidig/pi-vim-status@v0.1.1
 pi install npm:pi-zentui
 ```
 
 A git source is cloned and reconciled by `pi update --extensions`, so pin a tag or a commit
-(`@v0.1.0`) for a fixed release, or drop the `@` to follow the default branch. To hack on
+(`@v0.1.1`) for a fixed release, or drop the `@` to follow the default branch. To hack on
 the package, install the checkout in place instead with
 `pi install /absolute/path/to/pi-vim-status`; a relative path works only with `--local`
 from inside the project, because it resolves from the settings file that declares it.
