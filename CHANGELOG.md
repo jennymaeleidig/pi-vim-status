@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.1.2]
+
+- Keep the lockfile's version in step with the manifest. No behaviour change.
+
 ## [0.1.1]
 
 - Ignore `node_modules/` and build output in the repository, so a checkout stays clean after

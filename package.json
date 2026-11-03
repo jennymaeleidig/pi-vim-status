@@ -1,6 +1,6 @@
 {
   "name": "pi-vim-status",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Show pi-vim-editor's mode in a Zentui Minimalist border slot, with a fallback status",
   "type": "module",
   "license": "CC0-1.0",
