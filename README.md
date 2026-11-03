@@ -12,18 +12,19 @@ keeps working, and cursor shapes stay `pi-vim-editor`'s job.
 
 ## Install
 
-pi-vim-status is not published to npm; install it from the repository checkout:
+Install the package from its GitHub repository, between the two extensions it bridges:
 
 ```sh
 pi install npm:pi-vim-editor
-pi install /path/to/pi-extensions/pi-vim-status
+pi install git:github.com/jennymaeleidig/pi-vim-status@v0.1.0
 pi install npm:pi-zentui
 ```
 
-Use an absolute path to the package directory. Pi loads a local source from the resolved
-path without copying it, so leave the checkout where it is. A relative path resolves from
-the settings file that declares it: `./pi-vim-status` works only together with `--local`
-from inside the project.
+A git source is cloned and reconciled by `pi update --extensions`, so pin a tag or a commit
+(`@v0.1.0`) for a fixed release, or drop the `@` to follow the default branch. To hack on
+the package, install the checkout in place instead with
+`pi install /absolute/path/to/pi-vim-status`; a relative path works only with `--local`
+from inside the project, because it resolves from the settings file that declares it.
 
 Packages load in the order they are declared in the `packages` array of
 `~/.pi/agent/settings.json`, so install them in that order; edit the array by hand to
