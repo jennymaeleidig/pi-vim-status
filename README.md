@@ -58,7 +58,8 @@ Each layer has to see what it expects:
 ```json
 {
   "vimEditor": {
-    "indicator": "none"
+    "indicator": "none",
+    "cursorShape": true
   }
 }
 ```
@@ -70,13 +71,18 @@ supplies it inside the frame Zentui owns. An older `pi-vim-editor` ignores the v
 restores `bottom-right`, so the duplicate rule row comes back — upgrade rather than
 configuring around it.
 
+`cursorShape: true` is what carries INSERT. The chip stays empty in INSERT, so the cursor
+shape is the only mode signal there: block in NORMAL and the Visual modes, bar in INSERT,
+underline in REPLACE. Leave it off and every mode looks the same at the cursor.
+
 If `indicator` is not `"none"`, pi-vim-status sends one warning per session when it first
 has a Zentui surface to publish to.
 
 ## Zentui configuration
 
 Zentui reads its own configuration from `~/.pi/agent/zentui.json`. Give the publisher key a
-local alias with `variables`, then reference the alias in a slot:
+local alias with `variables`, then reference the alias in a slot. `variables` sits beside
+`formats`, both directly under `minimalist`:
 
 ```json
 {
@@ -164,8 +170,11 @@ Check in this order:
 2. **`vimEditor.indicator` is `"none"`.** Leaving it at `bottom-right` gives the duplicate
    rule row as well as the chip.
 3. **The alias key is exactly `pi-vim-status:vim` and `$vim` appears in a configured
-   slot.** If `$extensions` is still rendered and the value shows up there, the alias is
-   mismatched or unreferenced rather than the package being broken.
+   slot.** `variables` must sit beside `formats`; a `variables` block nested inside
+   `formats` is ignored, so `$vim` renders empty. If `$extensions` is still rendered, the
+   value moves into that aggregate (top-right by default) instead of the slot you named,
+   which means the alias is mismatched or unreferenced rather than the package being
+   broken.
 4. **Zentui owns the editor or the Starship Footer that demands the alias**, and the editor
    style is Minimalist or Opencode. A disabled editor with no footer demanding the key
    means no Zentui chip, and the text falls back to the extension status.
