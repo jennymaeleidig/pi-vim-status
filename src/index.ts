@@ -111,11 +111,12 @@ export default function piVimStatus(pi: ExtensionAPI): void {
 
   pi.on("session_start", (_event, ctx) => {
     if (ctx.mode !== "tui") return;
-    const previous = ctx.ui.getEditorComponent();
-    if (previous === undefined) return;
 
     ui = ctx.ui;
     reset(ui);
+
+    const previous = ctx.ui.getEditorComponent();
+    if (previous === undefined) return;
 
     ctx.ui.setEditorComponent((tui, theme, keybindings) => {
       const next = previous(tui, theme, keybindings);
