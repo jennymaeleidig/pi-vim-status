@@ -59,6 +59,16 @@ export default function piVimStatus(pi: ExtensionAPI): void {
     }
   };
 
+  /** Clear both channels and drop the bookkeeping the previous session left behind. */
+  const reset = (target: ExtensionUIContext | undefined): void => {
+    const result = reconcile(channels, undefined, false);
+    channels = result.next;
+    if (target !== undefined) apply(target, result.writes);
+    scheduled = false;
+    warned = false;
+    wrapped = new WeakSet<Editor>();
+  };
+
   const sync = (): void => {
     const target = ui;
     if (target === undefined) return;
@@ -71,12 +81,7 @@ export default function piVimStatus(pi: ExtensionAPI): void {
     channels = result.next;
     apply(target, result.writes);
 
-    if (
-      !warned &&
-      active &&
-      result.next.zentui !== undefined &&
-      (pi.getSettings() as SettingsLike).vimEditor?.indicator !== "none"
-    ) {
+    if (!warned && active && (pi.getSettings() as SettingsLike).vimEditor?.indicator !== "none") {
       warned = true;
       target.notify(
         `pi-vim-status: vimEditor.indicator is not "none", so the Vim label is drawn in the ` +
@@ -110,9 +115,7 @@ export default function piVimStatus(pi: ExtensionAPI): void {
     if (previous === undefined) return;
 
     ui = ctx.ui;
-    channels = CLEAR;
-    warned = false;
-    wrapped = new WeakSet<Editor>();
+    reset(ui);
 
     ctx.ui.setEditorComponent((tui, theme, keybindings) => {
       const next = previous(tui, theme, keybindings);
@@ -127,16 +130,8 @@ export default function piVimStatus(pi: ExtensionAPI): void {
 
   pi.on("session_shutdown", (_event, ctx) => {
     if (ctx.mode !== "tui") return;
-    scheduled = false;
-    const target = ui;
-    if (target !== undefined) {
-      const result = reconcile(channels, undefined, false);
-      channels = result.next;
-      apply(target, result.writes);
-    }
+    reset(ui);
     ui = undefined;
     editor = undefined;
-    wrapped = new WeakSet<Editor>();
-    warned = false;
   });
 }
