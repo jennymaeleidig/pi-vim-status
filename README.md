@@ -71,9 +71,8 @@ supplies it inside the frame Zentui owns. An older `pi-vim-editor` ignores the v
 restores `bottom-right`, so the duplicate rule row comes back — upgrade rather than
 configuring around it.
 
-`cursorShape: true` is what carries INSERT. The chip stays empty in INSERT, so the cursor
-shape is the only mode signal there: block in NORMAL and the Visual modes, bar in INSERT,
-underline in REPLACE. Leave it off and every mode looks the same at the cursor.
+`cursorShape: true` adds the cursor shape as a second, independent mode signal: block in
+NORMAL and the Visual modes, bar in INSERT, underline in REPLACE.
 
 If `indicator` is not `"none"`, pi-vim-status sends one warning per session when it first
 has a Zentui surface to publish to.
@@ -124,8 +123,8 @@ keys, not aliases:
 
 ## Behaviour
 
-- INSERT publishes nothing, so the chip is present only when there is a mode worth
-  showing. It also clears a chip left by another mode.
+- The chip shows the current mode: INSERT, NORMAL, VISUAL, VISUAL LINE, VISUAL BLOCK and
+  REPLACE. An unrecognised future mode shows its label too.
 - NORMAL, VISUAL, VISUAL LINE, VISUAL BLOCK and REPLACE show their label.
 - Pending counts and search queries appear as they are typed: `3d` while the command is
   unfinished, `/parser` while the query is open.

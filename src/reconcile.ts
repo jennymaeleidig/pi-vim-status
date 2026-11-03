@@ -58,11 +58,9 @@ export function fitLabel(text: string): string | undefined {
   return truncate(cleaned);
 }
 
-/** The text a status asks for: nothing for INSERT, the fitted label otherwise. */
+/** The text a status asks for: its fitted label, for every mode. */
 function textFor(status: VimStatus | undefined): string | undefined {
-  if (status === undefined) return undefined;
-  if (status.mode === "insert") return undefined;
-  return fitLabel(status.label);
+  return status === undefined ? undefined : fitLabel(status.label);
 }
 
 /**

@@ -22,7 +22,7 @@ _Avoid_: State, status object, mode info
 
 **Mode**:
 One of `insert`, `normal`, `visual`, `visual-line`, `visual-block`, `replace` as the Vim
-status reports it. Only `insert` is suppressed; any other mode shows its label.
+status reports it. Every mode shows its label, INSERT included.
 _Avoid_: State, phase
 
 **Label**:

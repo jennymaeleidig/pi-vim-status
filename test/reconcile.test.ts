@@ -21,20 +21,20 @@ type Transition = Readonly<{
 
 const transitions: readonly Transition[] = [
   {
-    name: "INSERT from an empty state publishes nothing",
+    name: "INSERT with Zentui active publishes INSERT",
     previous: CLEAR,
     status: shown("insert"),
     zentuiActive: true,
-    next: CLEAR,
-    writes: [],
+    next: { zentui: "INSERT", status: undefined },
+    writes: [{ channel: "zentui", text: "INSERT" }],
   },
   {
-    name: "INSERT while Zentui is inactive publishes nothing",
+    name: "INSERT with Zentui inactive publishes INSERT on the status channel",
     previous: CLEAR,
     status: shown("insert"),
     zentuiActive: false,
-    next: CLEAR,
-    writes: [],
+    next: { zentui: undefined, status: "INSERT" },
+    writes: [{ channel: "status", text: "INSERT" }],
   },
   {
     name: "NORMAL with Zentui active puts NORMAL on the Zentui channel",
@@ -147,11 +147,11 @@ const transitions: readonly Transition[] = [
     writes: [],
   },
   {
-    name: "repeating INSERT over a cleared state writes nothing",
-    previous: CLEAR,
+    name: "repeating INSERT writes nothing when the chip already shows INSERT",
+    previous: { zentui: "INSERT", status: undefined },
     status: shown("insert"),
-    zentuiActive: false,
-    next: CLEAR,
+    zentuiActive: true,
+    next: { zentui: "INSERT", status: undefined },
     writes: [],
   },
 ];
@@ -168,14 +168,14 @@ for (const transition of transitions) {
   });
 }
 
-test("INSERT clears a chip another mode left behind", () => {
+test("INSERT replaces a chip another mode left behind", () => {
   const { next, writes } = reconcile(
     { zentui: "VISUAL", status: undefined },
     shown("insert"),
     true,
   );
-  assert.deepEqual(next, CLEAR);
-  assert.deepEqual(writes, [{ channel: "zentui", text: undefined }]);
+  assert.deepEqual(next, { zentui: "INSERT", status: undefined });
+  assert.deepEqual(writes, [{ channel: "zentui", text: "INSERT" }]);
 });
 
 test("an over-limit label is fitted to the protocol limit and marked with an ellipsis", () => {
