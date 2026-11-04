@@ -3,7 +3,7 @@
 Show `pi-vim-editor`'s mode in a Zentui Minimalist border slot, without giving up Zentui's
 frame.
 
-pi-vim-status is a bridge between two extensions: it reads the Vim status `pi-vim-editor`
+`pi-vim-status` is a bridge between two extensions: it reads the Vim status `pi-vim-editor`
 publishes, republishes the label on Zentui's custom-variable bus, and falls back to Pi's
 ordinary extension status channel when Zentui is not listening. It is presentation only —
 it draws no rows, owns no border, and never replaces the editor. Vim key handling,
@@ -16,7 +16,7 @@ Install the package from its GitHub repository, between the two extensions it br
 
 ```sh
 pi install npm:pi-vim-editor
-pi install git:github.com/jennymaeleidig/pi-vim-status@v0.1.2
+pi install git:github.com/jennymaeleidig/pi-vim-status
 pi install npm:pi-zentui
 ```
 
@@ -75,7 +75,7 @@ configuring around it.
 `cursorShape: true` adds the cursor shape as a second, independent mode signal: block in
 NORMAL and the Visual modes, bar in INSERT, underline in REPLACE.
 
-If `indicator` is not `"none"`, pi-vim-status sends one warning per session when it first
+If `indicator` is not `"none"`, `pi-vim-status` sends one warning per session when it first
 has a Zentui surface to publish to.
 
 ## Zentui configuration
@@ -196,6 +196,6 @@ appears on the next keypress or repaint rather than from a timer.
 
 ## Retirement
 
-pi-vim-status exists because Zentui does not read the Vim capability natively. If Zentui
+`pi-vim-status` exists because Zentui does not read the Vim capability natively. If Zentui
 grows native support for the capability, this package is redundant: remove it from
 `packages` and drop the `vim` alias from the Zentui configuration.
