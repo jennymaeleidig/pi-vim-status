@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+- Make `prepare` tolerant of a production install: `pi update --extensions` runs
+  `npm install --omit=dev` on a git checkout, where `husky` is absent, and `sh -c husky`
+  failed the install with exit 127.
+
 ## [0.1.2]
 
 - Keep the lockfile's version in step with the manifest. No behaviour change.
